@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collapsible Dropdowns</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .submenu {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-white p-4 text-white">
+        <nav class="flex items-center justify-between">
+            <div class="w-20">
+                <!-- <h1 class="text-2xl font-bold">Your Project</h1> -->
+                <img src="https://nirmaan.org/wp-content/uploads/2022/03/nirmaan_logo.png" alt="nirmaan logo">
+            </div>
+            <div class="lg:hidden">
+                <!-- Hamburger Menu for Small Screens -->
+                <button id="mobile-menu-button" class="text-2xl focus:outline-none">
+                    &#9776;
+                </button>
+            </div>
+            <ul id="main-menu" class="hidden lg:flex space-x-6">
+                <!-- Generate Dropdowns Dynamically -->
+                <script>
+                    const menuData = [
+                        {
+                            label: "ABOUT US",
+                            items: [
+                                {
+                                    label: "Item 1",
+                                    items: [
+                                        { label: "Subitem 1.1" },
+                                        { label: "Subitem 1.2" }
+                                    ]
+                                },
+                                { label: "Item 2" }
+                            ]
+                        },
+                        {
+                            label: "PROGRAMS",
+                            items: [
+                                { label: "Item 3" },
+                                { label: "Item 4" }
+                            ]
+                        },
+                        {
+                            label: "PARTNERS",
+                            items: [
+                                { label: "Item 3" },
+                                { label: "Item 4" }
+                            ]
+                        },
+                        {
+                            label: "CAREERS",
+                            items: [
+                                { label: "Item 3" },
+                                { label: "Item 4" }
+                            ]
+                        },
+                        {
+                            label: "CONTACT US",
+                            items: [
+                                { label: "Item 3" },
+                                { label: "Item 4" }
+                            ]
+                        }
+
+                    ];
+
+                    const generateDropdown = (data) => {
+                        return data.map(item => {
+                            return `
+                                <li class="relative">
+                                    <button class=" text-black hover:text-gray-300 focus:outline-none" onclick="toggleSubMenu(this)">
+                                        ${item.label}
+                                    </button>
+                                    <ul class="submenu mt-2 space-y-2 bg-white text-black">
+                                        ${item.items ? generateDropdown(item.items) : ''}
+                                    </ul>
+                                </li>
+                            `;
+                        }).join('');
+                    }
+
+                    document.write(generateDropdown(menuData));
+                </script>
+                <script>
+                    function toggleSubMenu(button) {
+                        const submenu = button.nextElementSibling;
+                        if (submenu) {
+                            submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+                        }
+                    }
+                </script>
+            </ul>
+            <!-- Add your buttons here -->
+            <div class=" flex space-x-4">
+                <button class="text-sm text-white focus:outline-none bg-blue-500 p-3 rounded-3xl">VOLUNTEER</button>
+                <button class="text-sm text-white focus:outline-none bg-blue-500 p-3 rounded-3xl">DONATE</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden fixed inset-y-0 left-0 z-30 w-64 bg-blue-500 text-white transform -translate-x-full transition-transform">
+        <ul class="mt-4 space-y-4">
+            <!-- Generate Mobile Dropdown Dynamically -->
+            <script>
+                document.write(generateDropdown(menuData));
+            </script>
+        </ul>
+    </div>
+
+    <!-- JavaScript to handle mobile menu toggle -->
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            if (mobileMenu.style.transform === 'translateX(-100%)') {
+                mobileMenu.style.transform = 'translateX(0)';
+            } else {
+                mobileMenu.style.transform = 'translateX(-100%)';
+            }
+        });
+    </script>
+</body>
+</html>
